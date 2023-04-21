@@ -176,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 13.96
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -346,8 +346,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 3.5
+  m_Material: {fileID: 6200000, guid: bfededcea9bdfaf40a3e3c44bb19efad, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -364,8 +364,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6fe88823fa682a48beac06c12bc39c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  jumpForce: 5
+  moveSpeed: 6
+  jumpForce: 12
+  dashingDuration: 0
+  dashingSpeed: 15
+  dashingTimer: 0.4
+  dashingCooldown: 0
+  dashingTimerCooldown: 1
+  isAttacking: 0
+  comboCounter: 0
+  comboTimer: 0
+  comboDuration: 0.4
   groundCheckDistance: 1.15
   groundMask:
     serializedVersion: 2
@@ -412,6 +421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1218793711}
   - component: {fileID: 1218793710}
+  - component: {fileID: 1218793712}
   m_Layer: 6
   m_Name: Square (1)
   m_TagString: Untagged
@@ -486,6 +496,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1218793712
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218793709}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &2140102297
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,8 +626,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2140102297}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.2505, y: 0, z: 0}
-  m_LocalScale: {x: 11.5011, y: 1, z: 1}
+  m_LocalPosition: {x: -3.2106, y: 0.15, z: 0}
+  m_LocalScale: {x: 19.215345, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
