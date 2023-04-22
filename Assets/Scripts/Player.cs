@@ -83,10 +83,49 @@ public class Player : MonoBehaviour
         FlipController();
     }
 
+    private void StartAttackEvent() 
+    {
+        if (!isTouchingGround) 
+        {
+            return;
+        }
+
+        if (comboTimer < 0) 
+        {
+            comboCounter = 0;
+        }
+
+        ComboController();
+
+    
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y - groundCheckDistance, 0));
+    }
+
     /*
         Handler for player Killing machine
      
      */
+    public void AttackOver() 
+    {
+
+        isAttacking = false;
+        comboCounter++;
+        
+        if (comboCounter >2 )
+        {
+            comboCounter = 0;
+        }
+        
+    }
+
+    private void AttackingHandlerTimer() 
+    {
+        comboTimer -= Time.deltaTime;
+        
+    }   
     /*
         Handler for player Killing machine
      
@@ -104,59 +143,14 @@ public class Player : MonoBehaviour
         // TODO later
     }
 
-    private void AttackingHandlerTimer() 
-    {
-        comboTimer -= Time.deltaTime;
-        if (comboTimer < 0) 
-        {
-
-            comboCounter = 0;
-            isAttacking = false;
-        }
-    }   
     private void DashingHandlerAbilityController() 
     {
-        if (dashingCooldown < 0) 
+        if (dashingCooldown < 0 && !isAttacking) 
         {
             dashingDuration = dashingTimer;
             dashingCooldown = dashingTimerCooldown;
         }
         
-    }
-
-    private void AttackingHandlerController() 
-    {
-        comboTimer =comboDuration;
-        if (comboTimer > 0)
-        {
-            isAttacking = true;
-
-            if (comboCounter > 2) {
-                comboCounter = -1;
-            }
-            
-            if (comboCounter <= 0)
-            {
-                comboCounter += 1;
-            }
-            else if (comboCounter == 1)
-            {
-                comboCounter += 1;
-            }
-
-            else if (comboCounter == 2)
-            {
-                comboCounter += 1;
-            }
-
-        }
-        
-    
-    }
-   
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y - groundCheckDistance, 0));
     }
 
 
@@ -187,9 +181,13 @@ public class Player : MonoBehaviour
     private void MovementHandler()
     {
 
-        if (dashingDuration > 0 )
+        if (isAttacking ) 
         {
-            rb.velocity = new Vector2(xInput * dashingSpeed , 0);
+            rb.velocity = Vector2.zero;
+        }
+        else if (dashingDuration > 0 && !isAttacking)
+        {
+            rb.velocity = new Vector2(playerDirection * dashingSpeed , 0);
 
         }
         else 
@@ -230,10 +228,17 @@ public class Player : MonoBehaviour
             JumpController();
         }
 
-        if (Input.GetKeyDown(KeyCode.Z)) 
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            AttackingHandlerController();
+            StartAttackEvent();            
         }
+    }
+    private void ComboController() 
+    {
+
+        comboTimer = comboDuration;
+        isAttacking = true;
+    
     }
 
     private void AnimationController() 
@@ -250,4 +255,42 @@ public class Player : MonoBehaviour
         anim.SetBool("isAttacking", isAttacking);
         anim.SetInteger("comboCounter", comboCounter);
     }
+
+
+
+
+    //**
+    //  Unused methods
+    //
+    //*//
+    private void UN_AttackingHandlerController() 
+    {
+        // Should not use this function
+        // Pain in the ass when you define attack and manage the time onlby by you ! I kept the method here !
+        comboTimer =comboDuration;
+        if (comboTimer > 0)
+        {
+            isAttacking = true;
+
+            if (comboCounter > 2) {
+                comboCounter = -1;
+            }
+            
+            if (comboCounter <= 0)
+            {
+                comboCounter += 1;
+            }
+            else if (comboCounter == 1)
+            {
+                comboCounter += 1;
+            }
+
+            else if (comboCounter == 2)
+            {
+                comboCounter += 1;
+            }
+
+        }
+    }
+   
 }

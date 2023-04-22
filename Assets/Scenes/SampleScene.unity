@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 704627584}
   - component: {fileID: 704627585}
   - component: {fileID: 704627586}
+  - component: {fileID: 704627587}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -312,6 +313,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &704627587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704627583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c8e93a4a9b93a24392f9cd384a6db5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1076610122
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +387,7 @@ MonoBehaviour:
   isAttacking: 0
   comboCounter: 0
   comboTimer: 0
-  comboDuration: 0.4
+  comboDuration: 0.6
   groundCheckDistance: 1.15
   groundMask:
     serializedVersion: 2
