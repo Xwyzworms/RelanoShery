@@ -12,7 +12,7 @@ public class PlayerStateMachine {
         currentState.Enter();
     }
 
-    public void UpdateState(PlayerState _updateState) 
+    public void ChangeState(PlayerState _updateState) 
     {
         currentState.Exit();
         this.currentState = _updateState;

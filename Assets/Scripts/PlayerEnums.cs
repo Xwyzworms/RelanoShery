@@ -7,7 +7,9 @@ public class PlayerEnums
 {
     public enum AnimState {
     
-        Idle,
-        Move,
+        isIdle,
+        isMove,
+        isAirState
     }
+
 }
