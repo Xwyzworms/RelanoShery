@@ -9,6 +9,12 @@ public class Player : MonoBehaviour
     public float moveSpeed = 12f;
     public float jumpForce = 12f;
 
+    [Header("Dash Info")]
+    public float dashSpeed = 25f;
+    public float dashDuration = 0.2f;
+    public float dashUsageTimer { get; private set; }
+    public float dashCooldown { get; private set; } = 0.5f;
+
     [Header("Collision Info")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
@@ -19,6 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask whatLayer;
 
     [SerializeField] public int facingDirection { get; private set; } = 1;
+
 
     #region Components
     public Animator anim { get; private set; }
@@ -32,6 +39,7 @@ public class Player : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerAirState airState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
 
     #endregion
 
@@ -43,6 +51,7 @@ public class Player : MonoBehaviour
         this.moveState = new PlayerMoveState(this, stateMachine, PlayerEnums.AnimState.isMove);
         this.jumpState = new PlayerJumpState(this, stateMachine, PlayerEnums.AnimState.isAirState);
         this.airState = new PlayerAirState(this, stateMachine, PlayerEnums.AnimState.isAirState);
+        this.dashState = new PlayerDashState(this, stateMachine, PlayerEnums.AnimState.isDashState);
     }
 
     private void Start()
@@ -73,8 +82,20 @@ public class Player : MonoBehaviour
     private void Update() 
     {
         stateMachine.currentState.Update();
+        CheckForDashInput();
     }
 
+    private void CheckForDashInput() 
+    {
+        dashUsageTimer -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.R) && dashUsageTimer < 0) 
+        {
+            dashUsageTimer = dashCooldown;
+            stateMachine.ChangeState(dashState);
+        
+        }
+    
+    }
     public void SetVelocity(float x_velocity, float y_velocity) 
     {
         rb.velocity = new Vector2(x_velocity, y_velocity);

@@ -9,7 +9,8 @@ public class PlayerEnums
     
         isIdle,
         isMove,
-        isAirState
+        isAirState,
+        isDashState
     }
 
 }
