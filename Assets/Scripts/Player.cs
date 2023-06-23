@@ -12,11 +12,13 @@ public class Player : MonoBehaviour
     [Header("Collision Info")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
-    
+
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private float wallCheckDistance;
 
     [SerializeField] private LayerMask whatLayer;
+
+    [SerializeField] public int facingDirection { get; private set; } = 1;
 
     #region Components
     public Animator anim { get; private set; }
@@ -43,22 +45,40 @@ public class Player : MonoBehaviour
         this.airState = new PlayerAirState(this, stateMachine, PlayerEnums.AnimState.isAirState);
     }
 
-    private void Start() 
+    private void Start()
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         stateMachine.Initialize(idleState);
     }
 
+    private void Flip()
+    {
+        facingDirection *= -1;
+        this.transform.Rotate(new Vector3(0, 180, 0));
+    }
+
+    public void FlipController(float x) 
+    {
+        if (x > 0 && facingDirection < 0)
+        {
+            Flip();
+        }
+        else if (x < 0 && facingDirection > 0) 
+        {
+            Flip();
+        }
+    }
+
     private void Update() 
     {
         stateMachine.currentState.Update();
-    
     }
 
     public void SetVelocity(float x_velocity, float y_velocity) 
     {
         rb.velocity = new Vector2(x_velocity, y_velocity);
+        FlipController(x_velocity);
     }
 
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatLayer);

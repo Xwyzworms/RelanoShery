@@ -22,10 +22,9 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.Update();
         player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
-        if (xInput == 0) 
+        if (xInput == 0)
         {
             stateMachine.ChangeState(player.idleState);
-            
         }
     }
 }
